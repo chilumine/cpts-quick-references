@@ -57,8 +57,8 @@ for i in {1..10}; do echo -n $i | base64 -w 0 | md5sum | tr -d ' -'; done
 
 ## XXE  
 
->[Intro to XXE](https://academy.hackthebox.com/module/134/section/1203)  
->
+>[Intro to XXE Injections](https://academy.hackthebox.com/module/134/section/1203)  
+>[BSCP XXE Notes](https://github.com/botesjuan/Burp-Suite-Certified-Practitioner-Exam-Study/blob/main/README.md#xxe-injections)  
 
 | **Code**   | **Description**   |
 | --------------|-------------------|
