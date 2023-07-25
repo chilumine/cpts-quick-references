@@ -48,6 +48,13 @@ TRACE
 | `md5sum` | MD5 hash a string |
 | `base64` | Base64 encode a string |
 
+>IDOR Mass Enumeration bash script to create MD5 payloads.  
+
+```bash
+for i in {1..10}; do echo -n $i | base64 -w 0 | md5sum | tr -d ' -'; done
+```  
+
+
 ## XXE
 
 | **Code**   | **Description**   |
@@ -60,7 +67,7 @@ TRACE
 
 # Web Attack Exercises  
 
->Try to use what you learned in this section to access the 'reset.php' page and delete all files. Once all files are deleted, you should get the flag.  
+>Try to use what you learned in [Bypassing Basic Authentication](https://academy.hackthebox.com/module/134/section/1175) section to access the 'reset.php' page and delete all files. Once all files are deleted, you should get the flag.  
 
 ![web-attack-auth-bypass-header](/images/web-attack-auth-bypass-header.png)  
 
@@ -70,3 +77,18 @@ TRACE
 
 ![web-attack-Bypassing-Security-Filters](/images/web-attack-Bypassing-Security-Filters.png)  
 
+>Repeat what you learned in [Mass IDOR Enumeration](https://academy.hackthebox.com/module/134/section/1186) section to get a list of documents of the first 20 user uid's in /documents.php, one of which should have a '.txt' file with the flag.  
+
+![web-attack-IDOR-employee-uid](/images/web-attack-IDOR-employee-uid.png)  
+
+>Intruder with grep for `txt` sniper attack on uid value `1..20`.
+
+![web-attack-IDOR-intruder-flag](/images/web-attack-IDOR-intruder-flag.png)  
+
+>[Bypassing Encoded References](https://academy.hackthebox.com/module/134/section/1187) Try to download the contracts of the first 20 employee, one of which should contain the flag, which you can read with 'cat'. You can either calculate the 'contract' parameter value, or calculate the '.pdf' file name directly.  
+
+![web-attack-IDOR-Bypassing-Encoded-References](/images/web-attack-IDOR-Bypassing-Encoded-References.png)  
+
+>URL Encode the characters of the payload for the intruder attack above.  
+
+>
