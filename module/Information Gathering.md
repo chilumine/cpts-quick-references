@@ -1,3 +1,7 @@
+# Information Gathering  
+
+[Info Gather](https://academy.hackthebox.com/module/144/section/1247)  
+
 ## WHOIS
 
 | **Command** | **Description** |
