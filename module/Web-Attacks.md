@@ -56,3 +56,11 @@ TRACE
 
 >Try to use what you learned in this section to access the 'reset.php' page and delete all files. Once all files are deleted, you should get the flag.  
 
+![web-attack-auth-bypass-header](/images/web-attack-auth-bypass-header.png)  
+
+>To get the flag, try to bypass the command injection filter through HTTP Verb Tampering, while using the following filename: file; cp /flag.txt ./  
+
+>Change the GET method to POST to [bypass security filters](https://academy.hackthebox.com/module/134/section/1178).  
+
+![web-attack-Bypassing-Security-Filters](/images/web-attack-Bypassing-Security-Filters.png)  
+
