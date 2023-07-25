@@ -55,7 +55,10 @@ for i in {1..10}; do echo -n $i | base64 -w 0 | md5sum | tr -d ' -'; done
 ```  
 
 
-## XXE
+## XXE  
+
+>[Intro to XXE](https://academy.hackthebox.com/module/134/section/1203)  
+>
 
 | **Code**   | **Description**   |
 | --------------|-------------------|
