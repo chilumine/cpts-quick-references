@@ -1,3 +1,7 @@
+# Footprinting  
+
+[Enumeration Principles](https://academy.hackthebox.com/module/112/section/1060)  
+
 ## Infrastructure-based Enumeration
 
 |**Command**|**Description**|
@@ -8,6 +12,7 @@
 ----
 ## Host-based Enumeration
 
+[FTP Discovery](https://academy.hackthebox.com/module/112/section/1066)  
 
 ##### FTP
 |**Command**|**Description**|
@@ -18,6 +23,7 @@
 | `openssl s_client -connect <FQDN/IP>:21 -starttls ftp` | Interact with the FTP service on the target using encrypted connection. |
 | `wget -m --no-passive ftp://anonymous:anonymous@<target>` | Download all available files on the target FTP server. |
 
+[SMB Discovery](https://academy.hackthebox.com/module/112/section/1067)  
 
 ##### SMB
 |**Command**|**Description**|
@@ -30,6 +36,7 @@
 | `crackmapexec smb <FQDN/IP> --shares -u '' -p ''` | Enumerating SMB shares using null session authentication. |
 | `enum4linux-ng.py <FQDN/IP> -A` | SMB enumeration using enum4linux. |
 
+[NFS Discovery](https://academy.hackthebox.com/module/112/section/1068)  
 
 ##### NFS
 |**Command**|**Description**|
@@ -38,6 +45,7 @@
 | `mount -t nfs <FQDN/IP>:/<share> ./target-NFS/ -o nolock` | Mount the specific NFS share.umount ./target-NFS |
 | `umount ./target-NFS` | Unmount the specific NFS share. |
 
+[DNS Enumeration](https://academy.hackthebox.com/module/112/section/1069)  
 
 ##### DNS
 |**Command**|**Description**|
@@ -47,13 +55,14 @@
 | `dig axfr <domain.tld> @<nameserver>` | AXFR request to the specific nameserver. |
 | `dnsenum --dnsserver <nameserver> --enum -p 0 -s 0 -o found_subdomains.txt -f ~/subdomains.list <domain.tld>` | Subdomain brute forcing. |
 
-
+[SMTP Mail Enumeration](https://academy.hackthebox.com/module/112/section/1072)  
 
 ##### SMTP
 |**Command**|**Description**|
 |-|-|
 | `telnet <FQDN/IP> 25` |  |
 
+[POP3 IMAP Mail Discovery](https://academy.hackthebox.com/module/112/section/1073)  
 
 ##### IMAP/POP3
 |**Command**|**Description**|
@@ -62,6 +71,7 @@
 | `openssl s_client -connect <FQDN/IP>:imaps` | Connect to the IMAPS service. |
 | `openssl s_client -connect <FQDN/IP>:pop3s` | Connect to the POP3s service. |
 
+[SNMP UDP Enumeration](https://academy.hackthebox.com/module/112/section/1075)  
 
 ##### SNMP
 |**Command**|**Description**|
@@ -70,18 +80,21 @@
 | `onesixtyone -c community-strings.list <FQDN/IP>` | Bruteforcing community strings of the SNMP service. |
 | `braa <community string>@<FQDN/IP>:.1.*` | Bruteforcing SNMP service OIDs. |
 
+[MySQL Enum](https://academy.hackthebox.com/module/112/section/1238)  
 
 ##### MySQL
 |**Command**|**Description**|
 |-|-|
 | `mysql -u <user> -p<password> -h <FQDN/IP>` | Login to the MySQL server. |
 
+[Microsoft SQL Enumeration](https://academy.hackthebox.com/module/112/section/1246)  
 
 ##### MSSQL
 |**Command**|**Description**|
 |-|-|
 | `mssqlclient.py <user>@<FQDN/IP> -windows-auth` | Log in to the MSSQL server using Windows authentication. |
 
+[Intelligent Platform Management Interface](https://academy.hackthebox.com/module/112/section/1245)  
 
 ##### IPMI
 |**Command**|**Description**|
@@ -89,6 +102,7 @@
 | `msf6 auxiliary(scanner/ipmi/ipmi_version)` | IPMI version detection. |
 | `msf6 auxiliary(scanner/ipmi/ipmi_dumphashes)` | Dump IPMI hashes. |
 
+#### SSH  
 
 ##### Linux Remote Management
 |**Command**|**Description**|
@@ -98,6 +112,7 @@
 | `ssh -i private.key <user>@<FQDN/IP>` | Log in to the SSH server using private key. |
 | `ssh <user>@<FQDN/IP> -o PreferredAuthentications=password` | Enforce password-based authentication. |
 
+#### WinRM  
 
 ##### Windows Remote Management
 |**Command**|**Description**|
@@ -106,6 +121,8 @@
 | `xfreerdp /u:<user> /p:"<password>" /v:<FQDN/IP>` | Log in to the RDP server from Linux. |
 | `evil-winrm -i <FQDN/IP> -u <user> -p <password>` | Log in to the WinRM server. |
 | `wmiexec.py <user>:"<password>"@<FQDN/IP> "<system command>"` | Execute command using the WMI service. |
+
+[Oracle TNS discovery](https://academy.hackthebox.com/module/112/section/2117)  
 
 ##### Oracle TNS
 |**Command**|**Description**|
