@@ -1,4 +1,10 @@
+# Getting Started with CPTS
+
+>Commands and their descriptions to use during daily penetration testing activities.  
+
 ## Basic Tools
+
+[Basic tools](https://academy.hackthebox.com/module/77/section/847)
 
 | **Command**   | **Description**   |
 | --------------|-------------------|
@@ -32,7 +38,14 @@
 | `:q!` | vim: Quit without saving |
 | `:wq` | vim: Write and quit |
 
-## Pentesting
+## Pentesting  
+
++ [NMAP service scanning](https://academy.hackthebox.com/module/77/section/726)  
++ [Web Enumeration](https://academy.hackthebox.com/module/77/section/728)
++ [Privilege Escalation](https://academy.hackthebox.com/module/77/section/844)
++ [Transfering Files](https://academy.hackthebox.com/module/77/section/849)
+
+
 | **Command**   | **Description**   |
 | --------------|-------------------|
 | **Service Scanning** |
