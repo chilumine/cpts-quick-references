@@ -5,7 +5,7 @@
 ## HackTheBox Certified Penetration Tester Modules  
 
 * [Getting Started](/module/Getting%20Started.md)  
-* [Network Enumeration NMAP]("/module/Network%20Enumeration%20NMAP.md")  
+* [Network Enumeration NMAP](/module/Network%20Enumeration%20NMAP.md)  
 * [Foot-printing](/module/Footprinting.md)  
 * [Information Gathering](/module/Information%20Gathering.md)  
 * [File Transfers](/module/File%20Transfers.md)  
