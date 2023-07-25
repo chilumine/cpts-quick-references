@@ -1,5 +1,12 @@
 # Attacking Common Applications  
 
+>Preparing the attack host for lab exercises:  
+
+```
+IP=10.129.x.x
+printf "%s\t%s\n\n" "$IP" "app.inlanefreight.local dev.inlanefreight.local blog.inlanefreight.local" | sudo tee -a /etc/hosts
+```
+
 | Command                                                      | Description                                                  |
 | ------------------------------------------------------------ | ------------------------------------------------------------ |
 | `sudo vim /etc/hosts`                                        | Opens the `/etc/hosts` with `vim` to start adding host names  |
