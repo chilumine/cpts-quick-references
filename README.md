@@ -26,7 +26,7 @@
 * [File Upload Attacks](/module/File%20Upload%20Attacks.md)
 * [Command Injections](/module/command%20injection.md)
 * [Web Attacks](/module/Web-Attacks.md)
-* [Attacking Common Applications](/module)
+* [Attacking Common Applications](/module/Attacking-Common-Applications.md)
 * [Linux Privilege Escalation](/module)
 * [Windows Privilege Escalation](/module)
 * [Documentation & Reporting](/module)
