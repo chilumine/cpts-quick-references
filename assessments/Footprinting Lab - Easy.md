@@ -64,6 +64,9 @@ openssl s_client -connect 10.129.53.210:21 -starttls ftp
 
 ftp 10.129.53.210 2121
 
+Username:ceil
+Password:qwer1234
+
 ls -al
 cd .ssh
 get id_rsa
