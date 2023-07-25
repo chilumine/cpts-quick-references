@@ -31,7 +31,13 @@ TRACE
 
 ## IDOR
 
-`Identify IDORS`
+>[Insecure Direct Object References (IDOR)](https://academy.hackthebox.com/module/134/section/1179) vulnerabilities.
+
+### Identify IDORS  
+
+>[Identifying IDORs](https://academy.hackthebox.com/module/134/section/1180)  
+>[BSCP IDOR Notes](https://github.com/botesjuan/Burp-Suite-Certified-Practitioner-Exam-Study/blob/main/README.md#access-control)  
+
 - In `URL parameters & APIs`
 - In `AJAX Calls`
 - By `understanding reference hashing/encoding`
