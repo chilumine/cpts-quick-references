@@ -1,4 +1,8 @@
+# Attackking Common Services  
+
 ## Attacking FTP
+
+[FTP Attack](https://academy.hackthebox.com/module/116/section/1165)  
 
 |**Command**|**Description**|
 |-|-|
@@ -9,6 +13,8 @@
 
 ---
 ## Attacking SMB
+
+[SMB Attack](https://academy.hackthebox.com/module/116/section/1167)  
 
 |**Command**|**Description**|
 |-|-|
@@ -31,6 +37,8 @@
 
 ---
 ## Attacking SQL Databases
+
+[SQL Attack](https://academy.hackthebox.com/module/116/section/1169)  
 
 |**Command**|**Description**|
 |-|-|
@@ -67,6 +75,8 @@
 ---
 ## Attacking RDP
 
+[RDP Attack](https://academy.hackthebox.com/module/116/section/1171)  
+
 |**Command**|**Description**|
 |-|-|
 | `crowbar -b rdp -s 192.168.220.142/32 -U users.txt -c 'password123'` | Password spraying against the RDP service. |
@@ -81,6 +91,8 @@
 ---
 ## Attacking DNS
 
+[DNS Attack](https://academy.hackthebox.com/module/116/section/1512)  
+
 |**Command**|**Description**|
 |-|-|
 | `dig AXFR @ns1.inlanefreight.htb inlanefreight.htb` | Perform an AXFR zone transfer attempt against a specific name server. |
@@ -90,6 +102,8 @@
 
 ---
 ## Attacking Email Services
+
+[Email Attacks](https://academy.hackthebox.com/module/116/section/1173)  
 
 |**Command**|**Description**|
 |-|-|
