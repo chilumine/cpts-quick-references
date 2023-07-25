@@ -94,6 +94,9 @@ dnsenum --dnsserver 10.129.53.210 --enum -p 0 -s 0 -f /usr/share/seclists/Discov
 chmod 600 ceil-ssh.txt
 
 ssh ceil@10.129.53.210 -i ceil-ssh.txt
+
+cd /home/flag
+cat /home/flag/flag.txt
 ```  
 
 
