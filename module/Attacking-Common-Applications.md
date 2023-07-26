@@ -7,6 +7,19 @@ IP=10.129.x.x
 printf "%s\t%s\n\n" "$IP" "app.inlanefreight.local dev.inlanefreight.local blog.inlanefreight.local" | sudo tee -a /etc/hosts
 ```
 
+## Initial Web Discovery  
+
+>Web discovery with NMAP, EyeWitness and Aquatone:  [Application Discovery & Enumeration](https://academy.hackthebox.com/module/113/section/1088)
+
+```bash
+sudo nmap -p 80,443,5357,8000,8009,8080,8089,8180,8443,8888,10000,10001 --open -oA web_discovery -iL scope_list
+
+eyewitness --web -x web_discovery.xml -d inlanefreight_eyewitness
+
+cat web_discovery.xml | /home/kali/Downloads/htb/academy/common-apps/aquatone -nmap
+```  
+
+
 | Command                                                      | Description                                                  |
 | ------------------------------------------------------------ | ------------------------------------------------------------ |
 | `sudo vim /etc/hosts`                                        | Opens the `/etc/hosts` with `vim` to start adding host names  |
