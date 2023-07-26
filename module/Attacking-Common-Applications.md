@@ -9,7 +9,9 @@ printf "%s\t%s\n\n" "$IP" "app.inlanefreight.local dev.inlanefreight.local blog.
 
 ## Initial Web Discovery  
 
->Web discovery with NMAP, EyeWitness and Aquatone:  [Application Discovery & Enumeration](https://academy.hackthebox.com/module/113/section/1088)
+>Script to do Web discovery using with NMAP, EyeWitness and Aquatone taking screenshot images of HTML:  [Application Discovery & Enumeration](https://academy.hackthebox.com/module/113/section/1088)
+
+>`nmap-web-discovery.sh`  
 
 ```bash
 sudo nmap -p 80,443,5357,8000,8009,8080,8089,8180,8443,8888,10000,10001 --open -oA web_discovery -iL scope_list
