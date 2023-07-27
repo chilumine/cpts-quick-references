@@ -313,10 +313,12 @@ get-content flag.txt
 + Footprint - Exploit wep app functions and work flow if no vulnerabilities found in research.  
 + Discovery - Open a new support ticket as `john@john.com` and obtain email address `950435@inlanefreight.local`, that match ticket id.
 + Enumeration - Check Ticket status and Login with `john@john.com` and the `950435` ticket number.  
-+ OSINT - `
++ OSINT - `https://dehashed.com/` discover: `email : kevin@inlanefreight.local, password : Fish1ng_s3ason!`  
++ linkedin2username - create a user list of company employees and attempt a password spraying attack against the VPN endpoint 
++ Exploit sensitive info with `kevin` employee login: `http://support.inlanefreight.local/scp/tickets.php?a=search&status=closed&uid=7` find closed ticket with password to User: `Charles Smithson, Email:	charles.smithson@inlanefreight.local password: Inlane_welcome!`  
 
+## Gitlab  
 
-
-
+>...
 
 
